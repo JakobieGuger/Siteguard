@@ -5,17 +5,17 @@ import time
 from typing import Any, Dict, List
 import yaml
 
-from sensors.weather import WeatherBME280
-from sensors.anemometer import Anemometer
-from sensors.pir_motion import PIRMotion
-from sensors.mic_noise import MicNoise
+from .sensors.weather import WeatherBME280
+from .sensors.anemometer import Anemometer
+from .sensors.pir_motion import PIRMotion
+from .sensors.mic_noise import MicNoise
 
-from processing.filters import FilterBank
-from processing.derived import heat_index_c
-from processing.rules import RuleEngine
+from .processing.filters import FilterBank
+from .processing.derived import heat_index_c
+from .processing.rules import RuleEngine
 
-from messaging.zmq_pub import ZmqPublisher
-from storage.sqlite import SqliteStore
+from .messaging.zmq_pub import ZmqPublisher
+from .storage.sqlite import SqliteStore
 
 def load_config(path: str) -> Dict[str, Any]:
     with open(path, "r", encoding="utf-8") as f:
