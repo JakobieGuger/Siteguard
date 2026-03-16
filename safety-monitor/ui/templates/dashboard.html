@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SiteGuard Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <h1>SiteGuard Safety Monitor</h1>
+            <p class="subtitle">Live environmental safety data from the Raspberry Pi monitoring unit</p>
+        </div>
+        <div class="status-box">
+            <span class="status-label">System Status:</span>
+            <span id="system-status" class="status-good">Online</span>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <section class="alerts-section">
+            <h2>Active Alerts</h2>
+            <div id="alert-banner" class="alert-banner hidden">
+                No active alerts
+            </div>
+            <div id="alerts-list" class="alerts-list">
+                <p class="muted">No alerts yet.</p>
+            </div>
+        </section>
+
+        <section class="metrics-section">
+            <h2>Live Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Temperature</h3>
+                    <p id="metric-temperature" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Humidity</h3>
+                    <p id="metric-humidity" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Pressure</h3>
+                    <p id="metric-pressure" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>PM2.5</h3>
+                    <p id="metric-pm25" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Wind Speed</h3>
+                    <p id="metric-wind_speed" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Noise</h3>
+                    <p id="metric-noise_dba" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Motion</h3>
+                    <p id="metric-motion" class="metric-value">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Heat Index</h3>
+                    <p id="metric-heat_index" class="metric-value">--</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="charts-section">
+            <h2>Recent Trends</h2>
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>Temperature</h3>
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Humidity</h3>
+                    <canvas id="humidityChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>PM2.5</h3>
+                    <canvas id="pm25Chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Noise</h3>
+                    <canvas id="noiseChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

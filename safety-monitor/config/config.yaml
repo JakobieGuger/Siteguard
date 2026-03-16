@@ -1,0 +1,55 @@
+site:
+  name: "Capstone Site Demo"
+
+messaging:
+  zmq_pub_bind: "tcp://127.0.0.1:5556"
+  zmq_sub_connect: "tcp://127.0.0.1:5556"
+
+storage:
+  sqlite_path: "/home/pi/safety-monitor/data/safety.db"
+  retention_hours: 24
+
+collector:
+  publish_hz: 2  # overall loop rate (sensor reads can be slower per sensor)
+  timezone: "America/New_York"
+
+sensors:
+  weather_bme280:
+    enabled: true
+    i2c_bus: 1
+    i2c_addr: 0x76
+    period_s: 2
+
+  anemometer:
+    enabled: false
+    gpio_pin: 17
+    # calibration: wind_speed_mps = pulses_per_sec * factor
+    factor_mps_per_hz: 0.8
+    sample_window_s: 2
+    period_s: 2
+
+  pir_motion:
+    enabled: true
+    gpio_pin: 27
+    period_s: 1
+
+  mic_noise:
+    enabled: false
+    device: null   # null = default audio input
+    period_s: 2
+    sample_seconds: 1.0
+
+rules:
+  noise_dba_warning: 85
+  noise_dba_critical: 95
+  noise_duration_s: 10
+
+  wind_gust_warning_mps: 12
+  wind_gust_critical_mps: 18
+
+  motion_restricted_hours:
+    enabled: false
+    start_hour: 20
+    end_hour: 6
+
+  sensor_missing_s: 10

@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Construction Safety Monitor</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; }
+    .value { font-size: 28px; font-weight: bold; }
+    .muted { color: #666; font-size: 12px; }
+    .events { margin-top: 16px; }
+    .event { border-left: 6px solid #999; padding: 8px 10px; margin: 6px 0; background: #fafafa; }
+    .warning { border-left-color: #f0ad4e; }
+    .critical { border-left-color: #d9534f; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h2>Construction Safety Monitor</h2>
+  <div class="grid" id="tiles"></div>
+
+  <div class="card" style="margin-top:12px;">
+    <div><b>History</b></div>
+    <div class="muted">Choose a sensor to plot:</div>
+    <select id="sensorSelect"></select>
+    <canvas id="chart" height="120"></canvas>
+  </div>
+
+  <div class="events">
+    <h3>Events</h3>
+    <div id="events"></div>
+  </div>
+
+<script>
+let chart;
+
+function fmt(v) {
+  if (typeof v === 'number') return (Math.round(v * 10) / 10).toFixed(1);
+  return String(v);
+}
+
+async function refreshLatest() {
+  const res = await fetch('/api/latest');
+  const data = await res.json();
+
+  const tiles = document.getElementById('tiles');
+  tiles.innerHTML = '';
+
+  const latest = data.latest || {};
+  const keys = Object.keys(latest);
+
+  // Populate dropdown once
+  const sel = document.getElementById('sensorSelect');
+  if (sel.options.length === 0) {
+    keys.forEach(k => {
+      const opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = k;
+      sel.appendChild(opt);
+    });
+    if (keys.length > 0) loadHistory(keys[0]);
+    sel.onchange = () => loadHistory(sel.value);
+  }
+
+  keys.forEach(k => {
+    const r = latest[k];
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div><b>${k}</b></div>
+      <div class="value">${fmt(r.value)} <span style="font-size:16px;">${r.unit}</span></div>
+      <div class="muted">${r.ts} • ${r.status}</div>
+    `;
+    tiles.appendChild(div);
+  });
+
+  const evDiv = document.getElementById('events');
+  evDiv.innerHTML = '';
+  (data.events || []).slice().reverse().forEach(ev => {
+    const e = document.createElement('div');
+    e.className = 'event ' + (ev.severity || '');
+    e.innerHTML = `<div><b>${ev.severity}</b> — ${ev.message}</div><div class="muted">${ev.ts} • ${ev.rule}</div>`;
+    evDiv.appendChild(e);
+  });
+}
+
+async function loadHistory(sensor) {
+  const res = await fetch(`/api/history?sensor=${encodeURIComponent(sensor)}&limit=200`);
+  const data = await res.json();
+  const pts = data.points || [];
+
+  const labels = pts.map(p => p.ts.substring(11,19));
+  const values = pts.map(p => p.value);
+
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{ label: sensor, data: values }]
+    },
+    options: { responsive: true, animation: false }
+  });
+}
+
+setInterval(refreshLatest, 1000);
+refreshLatest();
+</script>
+</body>
+</html>

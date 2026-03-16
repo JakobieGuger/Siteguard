@@ -1,0 +1,13 @@
+[Unit]
+Description=Safety Monitor UI
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/safety-monitor/ui
+ExecStart=/usr/bin/python3 -m uvicorn server:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
