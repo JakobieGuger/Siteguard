@@ -6,7 +6,7 @@ messaging:
   zmq_sub_connect: "tcp://127.0.0.1:5556"
 
 storage:
-  sqlite_path: "/home/pi/safety-monitor/data/safety.db"
+  sqlite_path: "/home/pi/Siteguard/safety-monitor/data/safety.db"
   retention_hours: 24
 
 collector:
