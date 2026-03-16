@@ -35,7 +35,7 @@ def reading_to_dict(r) -> Dict[str, Any]:
     }
 
 def main() -> None:
-    cfg = load_config("/home/pi/safety-monitor/config/config.yaml")
+    cfg = load_config("/home/pi/Siteguard/safety-monitor/config/config.yaml")
 
     pub_bind = cfg["messaging"]["zmq_pub_bind"]
     db_path = cfg["storage"]["sqlite_path"]
