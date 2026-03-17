@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/Siteguard/safety-monitor/collector
+WorkingDirectory=/home/pi/Siteguard/safety-monitor
 ExecStart=/usr/bin/python3 /home/pi/Siteguard/safety-monitor/.venv/bin/python -m collector.main
 Restart=always
 RestartSec=2
