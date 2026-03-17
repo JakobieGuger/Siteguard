@@ -1,4 +1,4 @@
-# SiteGuard Safety Monitor
+SiteGuard Safety Monitor
 
 SiteGuard is a Raspberry Pi–based construction site safety monitoring system designed to collect, process, and display live environmental safety data. The system is built around a Raspberry Pi 4 Model B and uses multiple sensors to monitor conditions such as air quality, weather, wind speed, motion, and noise levels.
 
@@ -6,7 +6,7 @@ The project is intended to serve as a low-cost, deployable prototype that can he
 
 ---
 
-## Project Features
+Project Features
 
 - Real-time sensor monitoring
 - Alert generation when thresholds are exceeded
@@ -16,7 +16,7 @@ The project is intended to serve as a low-cost, deployable prototype that can he
 
 ---
 
-## Planned / Supported Sensor Inputs
+Planned / Supported Sensor Inputs
 
 - BME280  
   - Temperature
@@ -26,18 +26,20 @@ The project is intended to serve as a low-cost, deployable prototype that can he
 - PMS5003  
   - PM2.5 / air quality
 
-- Anemometer  
-  - Wind speed
-
 - Microphone / noise sensor  
   - Estimated dBA level
+
+Potential Future Add-ons
 
 - PIR motion sensor  
   - Motion detection
 
+- Anemometer  
+  - Wind speed
+
 ---
 
-## Repository Structure
+Repository Structure
 
 ```text
 safety-monitor/
@@ -73,3 +75,5 @@ safety-monitor/
 │   └── config.yaml
 ├── requirements.txt
 └── README.md
+
+Github Repo: https://github.com/JakobieGuger/Siteguard
