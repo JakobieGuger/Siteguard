@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=pi
 WorkingDirectory=/home/pi/Siteguard/safety-monitor
-ExecStart=/usr/bin/python3 -m uvicorn server:app --host 0.0.0.0 --port 8000
+ExecStart=/home/pi/.venv/bin/python -m uvicorn server:app --host 0.0.0.0 --port 8000
 Restart=always
 RestartSec=2
 
