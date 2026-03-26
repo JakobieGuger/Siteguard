@@ -9,6 +9,8 @@ from .sensors.weather import WeatherBME280
 from .sensors.anemometer import Anemometer
 from .sensors.pir_motion import PIRMotion
 from .sensors.mic_noise import MicNoise
+from .sensors.pm25 import PM25Sensor
+from .sensors.mic_noise import MicNoise
 
 from .processing.filters import FilterBank
 from .processing.derived import heat_index_c
@@ -67,12 +69,22 @@ def main() -> None:
         s = PIRMotion(gpio_pin=int(p["gpio_pin"]), period_s=float(p["period_s"]))
         sensors.append(s)
 
+    if scfg.get("pm25", {}).get("enabled", False):
+        p = scfg["pm25"]
+        s = PM25Sensor(
+            port=p.get("port", "/dev/serial0"),
+            baudrate=int(p.get("baudrate", 9600)),
+            period_s=float(p.get("period_s", 2.0)),
+        )
+        sensors.append(s)
+
     if scfg.get("mic_noise", {}).get("enabled", False):
         m = scfg["mic_noise"]
-        s = MicNoise(device=m.get("device", None),
-                     sample_seconds=float(m.get("sample_seconds", 1.0)),
-                     period_s=float(m["period_s"]))
-        sensors.append(s)
+        s = MicNoise(
+            gpio_pin=int(m.get("gpio_pin", 17)),
+            period_s=float(m.get("period_s", 0.5)),
+        )
+        sensors.append(s))
 
     for s in sensors:
         s.init()
