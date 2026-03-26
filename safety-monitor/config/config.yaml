@@ -39,6 +39,17 @@ sensors:
     period_s: 2
     sample_seconds: 1.0
 
+  pm25:
+    enabled: true
+    port: "/dev/serial0"
+    baudrate: 9600
+    period_s: 2
+
+  mic_noise:
+    enabled: true
+    gpio_pin: 17
+    period_s: 0.5
+
 rules:
   noise_dba_warning: 85
   noise_dba_critical: 95
