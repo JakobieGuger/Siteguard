@@ -84,7 +84,7 @@ def main() -> None:
             gpio_pin=int(m.get("gpio_pin", 17)),
             period_s=float(m.get("period_s", 0.5)),
         )
-        sensors.append(s))
+        sensors.append(s)
 
     for s in sensors:
         s.init()
