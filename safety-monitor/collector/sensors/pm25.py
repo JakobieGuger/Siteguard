@@ -2,6 +2,7 @@ from __future__ import annotations
 import serial
 from .base import SensorBase, Reading, iso_ts
 
+
 class PM25Sensor(SensorBase):
     name = "pm25"
 
@@ -16,8 +17,10 @@ class PM25Sensor(SensorBase):
         try:
             self.ser = serial.Serial(self.port, self.baudrate, timeout=2)
             self.ser.reset_input_buffer()
-        except Exception:
+            print(f"[PM25] opened serial port {self.port} @ {self.baudrate}")
+        except Exception as e:
             self._fallback = True
+            print(f"[PM25] init failed: {e}")
 
     def close(self) -> None:
         try:
@@ -30,10 +33,12 @@ class PM25Sensor(SensorBase):
         if not self.ser:
             return None
 
+        # Look for PMS frame header 0x42 0x4D
         while True:
             first = self.ser.read(1)
             if not first:
                 return None
+
             if first == b"\x42":
                 second = self.ser.read(1)
                 if second == b"\x4d":
@@ -45,10 +50,11 @@ class PM25Sensor(SensorBase):
         if len(frame) != 32:
             return None
 
-        # checksum: sum of first 30 bytes should equal last 2 bytes
         checksum = sum(frame[0:30]) & 0xFFFF
         received_checksum = (frame[30] << 8) | frame[31]
+
         if checksum != received_checksum:
+            print(f"[PM25] bad checksum: computed={checksum}, received={received_checksum}")
             return None
 
         values = []
@@ -88,6 +94,7 @@ class PM25Sensor(SensorBase):
 
         frame = self._read_frame()
         if frame is None:
+            print("[PM25] no frame received")
             return [
                 Reading(
                     ts=ts,
@@ -111,6 +118,8 @@ class PM25Sensor(SensorBase):
                     meta={"source": self.port},
                 )
             ]
+
+        print(f"[PM25] pm2_5_atm={parsed['pm2_5_atm']} ug/m3")
 
         return [
             Reading(
