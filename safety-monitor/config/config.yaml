@@ -36,6 +36,7 @@ sensors:
   mic_noise:
     enabled: true
     channel: 0
+    threshold: 0.3
     period_s: 0.2
 
   pm25:
