@@ -81,8 +81,9 @@ def main() -> None:
     if scfg.get("mic_noise", {}).get("enabled", False):
         m = scfg["mic_noise"]
         s = MicNoise(
-            gpio_pin=int(m.get("gpio_pin", 17)),
-            period_s=float(m.get("period_s", 0.5)),
+            channel=int(m.get("channel", 0)),
+            threshold=float(m.get("threshold", 0.3)),
+            period_s=float(m.get("period_s", 0.2)),
         )
         sensors.append(s)
 
