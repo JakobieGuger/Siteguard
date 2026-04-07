@@ -34,10 +34,9 @@ sensors:
     period_s: 1
 
   mic_noise:
-    enabled: false
-    device: null   # null = default audio input
-    period_s: 2
-    sample_seconds: 1.0
+    enabled: true
+    channel: 0
+    period_s: 0.2
 
   pm25:
     enabled: true
