@@ -1,3 +1,31 @@
+J4k0b13
+j4k0b13
+Invisible
+
+J4k0b13 — 4/1/2026 1:45 PM
+Ok yea it didn’t seem like he was covering anything important ngl
+Heathen0Heathen0 [PIT],  — 4/1/2026 1:46 PM
+He also talked about the brochure
+Heathen0Heathen0 [PIT],  — 4/2/2026 9:24 AM
+@J4k0b13 hey man, are you gonna be able to meet at the capstone lab this morning? I feel like im being annoying asking what the plan is in the group text. I just don't know how to get into the pi myself so I would need you there.
+If you can't it's all good, I can let the rest of the guys know and you and I can work on it before the meeting
+J4k0b13 — 4/2/2026 10:01 AM
+I can after our class
+Heathen0Heathen0 [PIT],  — 4/2/2026 10:01 AM
+Alright, I'll let the rest of the guys know
+J4k0b13 — 4/2/2026 10:03 AM
+Actually I could probably go in around 12
+Heathen0Heathen0 [PIT],  — 4/2/2026 10:04 AM
+Alright
+J4k0b13 — 4/7/2026 11:52 AM
+https://github.com/JakobieGuger/Siteguard/tree/main/safety-monitor/ui/static
+GitHub
+Siteguard/safety-monitor/ui/static at main · JakobieGuger/Siteguard
+University Capstone Project: Project Siteguard is a low cost safety monitor designed to ensure safety on a construction site. The current version supports detection for dangerous temperatures, nois...
+University Capstone Project: Project Siteguard is a low cost safety monitor designed to ensure safety on a construction site. The current version supports detection for dangerous temperatures, nois...
+Heathen0Heathen0 [PIT],  — 4/7/2026 11:59 AM
+/* styles.css - Clean, professional styling for Construction Safety Monitor */
+
 :root{
   --bg: #f5f7fb;
   --card: #ffffff;
@@ -14,16 +42,251 @@
   font-synthesis: none;
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+{ box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } html,body { height: 100%; margin: 0; background: var(--bg); color: #111827; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.container {
+  max-width: var(--max-width);
+  margin: 24px auto;
+  padding: 18px;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  background: var(--bg);
-  color: #111827;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+/* Grid layout for tiles - responsive */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Card base */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* Tile (sensor) card specifics */
+.card .value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0b1220;
+}
+
+.card .value small { font-size: 12px; color: var(--muted); }
+
+.card b { display: block; font-size: 13px; color: #0b1220; }
+
+.card .muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Hover / focus lift */
+.card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(16,24,40,0.08); }
+
+/* History section */
+.card select#sensorSelect {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(16,24,40,0.06);
+  background: linear-gradient(180deg,#ffffff,#fbfdff);
+  font-size: 13px;
+  color: #0b1220;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.card select#sensorSelect:focus { box-shadow: 0 6px 20px rgba(39,110,241,0.08); border-color: rgba(39,110,241,0.18); }
+
+/* Chart canvas container tuning */
+canvas#chart {
+  width: 100% !important;
+  display: block;
+... (61 lines left)
+
+message.txt
+5 KB
+﻿
+/* styles.css - Clean, professional styling for Construction Safety Monitor */
+
+:root{
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --muted: #637082;
+  --accent: #276ef1;
+  --accent-2: #00b894;
+  --warning: #f0ad4e;
+  --critical: #d9534f;
+  --border: rgba(16,24,40,0.06);
+  --radius: 10px;
+  --shadow: 0 6px 18px rgba(16,24,40,0.06);
+  --glass: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));
+  --max-width: 1100px;
+  font-synthesis: none;
+}
+
+{ box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } html,body { height: 100%; margin: 0; background: var(--bg); color: #111827; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.container {
+  max-width: var(--max-width);
+  margin: 24px auto;
+  padding: 18px;
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+/* Grid layout for tiles - responsive */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Card base */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* Tile (sensor) card specifics */
+.card .value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0b1220;
+}
+
+.card .value small { font-size: 12px; color: var(--muted); }
+
+.card b { display: block; font-size: 13px; color: #0b1220; }
+
+.card .muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Hover / focus lift */
+.card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(16,24,40,0.08); }
+
+/* History section */
+.card select#sensorSelect {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(16,24,40,0.06);
+  background: linear-gradient(180deg,#ffffff,#fbfdff);
+  font-size: 13px;
+  color: #0b1220;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.card select#sensorSelect:focus { box-shadow: 0 6px 20px rgba(39,110,241,0.08); border-color: rgba(39,110,241,0.18); }
+
+/* Chart canvas container tuning */
+canvas#chart {
+  width: 100% !important;
+  display: block;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+/* Events area */
+.events { margin-top: 20px; max-width: var(--max-width); margin-left: auto; margin-right: auto; padding: 0 6px; }
+.events h3 { margin: 0 0 10px 0; font-size: 16px; color: #0b1220; font-weight: 600; }
+
+/* Individual event card */
+.event {
+  background: #ffffff;
+  border-left: 6px solid #999;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.03);
+  transition: transform .12s ease, background .12s ease;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+.event:hover { transform: translateY(-4px); }
+.event > div:first-child { flex: 1; color: #0b1220; font-weight: 600; font-size: 13px; }
+.event .muted { color: var(--muted); font-weight: 500; font-size: 12px; margin-top: 6px; }
+
+/* Severity styles */
+.event.warning { border-left-color: var(--warning); background: linear-gradient(180deg,#fffaf6,#fff8f2); }
+.event.critical { border-left-color: var(--critical); background: linear-gradient(180deg,#fff3f3,#fff8f8); }
+.event.info { border-left-color: var(--accent-2); background: linear-gradient(180deg,#f3fffb,#f6fffb); }
+
+/* Small helpers */
+.muted { color: var(--muted); font-size: 12px; }
+.small { font-size: 12px; color: var(--muted); }
+
+/* Footer spacing */
+.spacer { height: 18px; }
+
+/* Utility classes for badges or inline statuses */
+.badge {
+  display: inline-block;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+.badge.ok { background: var(--accent-2); }
+.badge.warn { background: var(--warning); color:#3b2b00; }
+.badge.crit { background: var(--critical); }
+
+/* Make the whole UI narrower on very large screens */
+@media (min-width: 1200px) {
+  .container { padding: 22px; }
+}
+
+/* Accessibility: high-contrast focus outlines */
+:focus {
+  outline: 3px solid rgba(39,110,241,0.18);
+  outline-offset: 2px;
 }
