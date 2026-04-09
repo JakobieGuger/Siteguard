@@ -4,7 +4,7 @@ from .base import SensorBase, Reading, iso_ts
 class MicNoise(SensorBase):
     name = "mic_noise"
 
-    def __init__(self, gpio_pin: int = 7, period_s: float = 0.2):
+    def __init__(self, gpio_pin: int = 4, period_s: float = 0.2):
         self.gpio_pin = gpio_pin
         self.period_s = period_s
         self._fallback = False
@@ -13,13 +13,14 @@ class MicNoise(SensorBase):
     def init(self) -> None:
         try:
             from gpiozero import DigitalInputDevice
+            # HW-484 DO output typically active-low
             self.device = DigitalInputDevice(self.gpio_pin, pull_up=False)
         except Exception:
             self._fallback = True
 
     def close(self) -> None:
         try:
-            if self.device is not None:
+            if self.device:
                 self.device.close()
         except Exception:
             pass
@@ -35,14 +36,14 @@ class MicNoise(SensorBase):
                     value=0.0,
                     unit="trigger",
                     status="error",
-                    meta={"error": "gpiozero not available or sensor not initialized"},
+                    meta={"error": "GPIO not initialized"},
                 )
             ]
 
-        # Many HW-484 style modules behave as active-low on DO:
-        # 0 = threshold exceeded, 1 = quiet
-        raw_gpio = self.device.value
-        detected = 1.0 if not raw_gpio else 0.0
+        raw = self.device.value
+
+        # invert because most HW-484 boards are active-low
+        detected = 1.0 if not raw else 0.0
 
         return [
             Reading(
@@ -52,9 +53,9 @@ class MicNoise(SensorBase):
                 unit="trigger",
                 status="ok",
                 meta={
-                    "source": f"hw484_gpio_{self.gpio_pin}",
-                    "raw_gpio_value": raw_gpio,
-                    "meaning": "1 = sound threshold exceeded, 0 = below threshold",
+                    "gpio": self.gpio_pin,
+                    "raw_gpio": raw,
+                    "meaning": "1 = sound detected",
                 },
             )
         ]
