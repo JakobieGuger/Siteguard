@@ -4,7 +4,7 @@ from .base import SensorBase, Reading, iso_ts
 class MicNoise(SensorBase):
     name = "mic_noise"
 
-    def __init__(self, channel: int = 0, threshold: float = 0.003, period_s: float = 0.2):
+    def __init__(self, channel: int = 0, threshold: float = 0.3, period_s: float = 0.2):
         self.channel = channel
         self.threshold = threshold
         self.period_s = period_s
