@@ -40,7 +40,7 @@ sensors:
 
   mic_noise:
     enabled: true
-    gpio_pin: 7
+    gpio_pin: 4
     period_s: 0.2
 
 rules:
