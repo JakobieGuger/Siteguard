@@ -10,7 +10,7 @@ storage:
   retention_hours: 24
 
 collector:
-  publish_hz: 2  # overall loop rate (sensor reads can be slower per sensor)
+  publish_hz: 2
   timezone: "America/New_York"
 
 sensors:
@@ -23,21 +23,14 @@ sensors:
   anemometer:
     enabled: false
     gpio_pin: 17
-    # calibration: wind_speed_mps = pulses_per_sec * factor
     factor_mps_per_hz: 0.8
     sample_window_s: 2
     period_s: 2
 
   pir_motion:
-    enabled: true
+    enabled: false
     gpio_pin: 27
     period_s: 1
-
-  mic_noise:
-    enabled: true
-    channel: 0
-    threshold: 0.3
-    period_s: 0.2
 
   pm25:
     enabled: true
@@ -47,20 +40,12 @@ sensors:
 
   mic_noise:
     enabled: true
-    gpio_pin: 17
-    period_s: 0.5
+    gpio_pin: 7
+    period_s: 0.2
 
 rules:
-  noise_dba_warning: 85
-  noise_dba_critical: 95
-  noise_duration_s: 10
+  noise_dba_warning: 1
+  noise_dba_critical: 1
+  noise_duration_s: 1
 
-  wind_gust_warning_mps: 12
-  wind_gust_critical_mps: 18
-
-  motion_restricted_hours:
-    enabled: false
-    start_hour: 20
-    end_hour: 6
-
-  sensor_missing_s: 10
+  wind_gust_warning_mps
