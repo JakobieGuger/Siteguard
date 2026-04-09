@@ -9,8 +9,6 @@ const metricMap = {
     heat_index: "metric-heat_index"
 };
 
-const charts = {};
-
 function formatMetricValue(sensor, value, unit) {
     if (value === undefined || value === null) return "--";
 
@@ -41,6 +39,8 @@ function renderAlerts(events) {
     const alertBanner = document.getElementById("alert-banner");
     const alertsList = document.getElementById("alerts-list");
 
+    if (!alertBanner || !alertsList) return;
+
     if (!events || events.length === 0) {
         alertBanner.classList.add("hidden");
         alertsList.innerHTML = `<p class="muted">No alerts yet.</p>`;
@@ -53,7 +53,7 @@ function renderAlerts(events) {
 
     alertsList.innerHTML = "";
 
-    [...events].reverse().slice(0, 10).forEach(event => {
+    [...events].reverse().slice(0, 8).forEach(event => {
         const div = document.createElement("div");
         div.className = getSeverityClass(event.severity);
         div.innerHTML = `
@@ -63,59 +63,6 @@ function renderAlerts(events) {
         `;
         alertsList.appendChild(div);
     });
-}
-
-function buildChart(canvasId, label) {
-    const ctx = document.getElementById(canvasId).getContext("2d");
-    return new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label,
-                    data: [],
-                    tension: 0.2,
-                    borderWidth: 2,
-                    pointRadius: 1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            plugins: {
-                legend: {
-                    display: true
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxTicksLimit: 6
-                    }
-                },
-                y: {
-                    beginAtZero: false
-                }
-            }
-        }
-    });
-}
-
-function updateChart(chart, points) {
-    if (!chart || !points) return;
-
-    chart.data.labels = points.map(p => {
-        if (!p.ts) return "";
-        const parts = p.ts.split("T");
-        if (parts.length < 2) return p.ts;
-        return parts[1].slice(0, 8);
-    });
-
-    chart.data.datasets[0].data = points.map(p => p.value);
-    chart.update();
 }
 
 async function fetchLatest() {
@@ -133,43 +80,25 @@ async function fetchLatest() {
         renderAlerts(events);
 
         const statusEl = document.getElementById("system-status");
-        statusEl.textContent = "Online";
-        statusEl.className = "status-good";
+        if (statusEl) {
+            statusEl.textContent = "Online";
+            statusEl.className = "status-good";
+        }
     } catch (err) {
         const statusEl = document.getElementById("system-status");
-        statusEl.textContent = "Disconnected";
-        statusEl.className = "status-bad";
+        if (statusEl) {
+            statusEl.textContent = "Disconnected";
+            statusEl.className = "status-bad";
+        }
         console.error("Failed to fetch latest data:", err);
-    }
-}
-
-async function fetchHistory(sensor, chart) {
-    try {
-        const res = await fetch(`/api/history?sensor=${encodeURIComponent(sensor)}&limit=30`);
-        const data = await res.json();
-        updateChart(chart, data.points || []);
-    } catch (err) {
-        console.error(`Failed to fetch history for ${sensor}:`, err);
     }
 }
 
 async function refreshDashboard() {
     await fetchLatest();
-
-    await Promise.all([
-        fetchHistory("temperature", charts.temperature),
-        fetchHistory("humidity", charts.humidity),
-        fetchHistory("pm25", charts.pm25),
-        fetchHistory("noise_dba", charts.noise)
-    ]);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    charts.temperature = buildChart("temperatureChart", "Temperature");
-    charts.humidity = buildChart("humidityChart", "Humidity");
-    charts.pm25 = buildChart("pm25Chart", "PM2.5");
-    charts.noise = buildChart("noiseChart", "Noise dBA");
-
     refreshDashboard();
     setInterval(refreshDashboard, 3000);
 });
