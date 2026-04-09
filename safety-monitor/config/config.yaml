@@ -47,5 +47,3 @@ rules:
   noise_dba_warning: 1
   noise_dba_critical: 1
   noise_duration_s: 1
-
-  wind_gust_warning_mps
